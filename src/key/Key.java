@@ -16,9 +16,11 @@ public class Key {
         key=s.nextLine();
         System.out.println("Enter the value: ");
         value=s.nextLine();
-        
+        //File for storing data
         File file=new File("C:\\Users\\91807\\Desktop\\Data.txt");
         file.createNewFile();
+        
+        //File for storing the Keylist
         File file2=new File("C:\\Users\\91807\\Desktop\\keylist.txt");
         file2.createNewFile();
       
@@ -37,17 +39,22 @@ public class Key {
         
       if(key!=keyname){
           
+      //Create Object for Storing data into the data file    
       JSONObject jsonobject1=new JSONObject();
       jsonobject1.put(key, value); 
       
+      //Create Object for storing key into the keylist file
       JSONObject jsonobjet2=new JSONObject();
       jsonobjet2.put("Keylist", key);
       
       try{
+          
+          //Write data into Data file
           FileWriter writer1=new FileWriter(file,true);
           writer1.write(jsonobject1.toJSONString());
           writer1.flush();
           
+          //Write data into keylist file
           FileWriter writer2=new FileWriter(file2,true);
           writer2.write(jsonobjet2.toJSONString());
           writer2.flush();
@@ -68,10 +75,16 @@ public class Key {
         key=s.nextLine();
         
          File file=new File("C:\\Users\\91807\\Desktop\\Data.txt");
+         
+         //Create Json parser to parse read file
          JSONParser parser=new JSONParser();
       try{
+          
+          //Read Json file
           Object obj=parser.parse(new FileReader(file));
           JSONObject object=(JSONObject)obj;
+          
+          //Get the value
           String name=(String)object.get(key);
           System.out.println(name);
       }catch(Exception e){
@@ -80,6 +93,10 @@ public class Key {
     }
     
     public void delete() {
+        Scanner s=new Scanner(System.in);
+        String key;
+        System.out.println("Enter the key for delete");
+        key=s.nextLine();
         File file=new File("C:\\Users\\91807\\Desktop\\Data.txt");
         JSONParser parser=new JSONParser();
         try{
@@ -88,7 +105,7 @@ public class Key {
             FileWriter writer=new FileWriter(file);
             for(int index=0;index<array.size();++index){
                 JSONObject jsonobject=(JSONObject)array.get(index);
-                jsonobject.remove("2");
+                jsonobject.remove(key);
                 writer.write(jsonobject.toJSONString());
                 writer.flush();
                 if(index==array.size()-1)
